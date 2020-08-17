@@ -1,6 +1,6 @@
 {
   "name": "ScdoWallet",
-  "version": "1.2.0",
+  "version": "0.5.0",
   "icon": "build/icon.icns",
   "productName": "ScdoWalletBeta",
   "description": "Wallet for Scdo",
@@ -9,9 +9,9 @@
     "start": "electron .",
     "package": "electron-packager . ScdoWallet --all --out=../dist/ --overwrite=true --ignore=node_modules/electron-* --ignore=node_modules/.bin --ignore=.git --ignore=dist --icon=/build/ScdoWallet_48.ico",
     "build": "electron-packager .",
-    "pac-mac": "electron-packager . --overwrite --ignore=cmd/linux --ignore=cmd/win32 --platform=darwin --arch=x64 --icon=build/icon.icns --prune=true --out=release-builds",
-    "pac-lin": "electron-packager . ScdoWalletBeta --overwrite --ignore=cmd/mac --ignore=cmd/win32 --platform=linux --arch=x64 --icon=build/icon.png --prune=true --out=release-builds",
-    "pac-win": "electron-packager . ScdoWalletBeta --overwrite --ignore=cmd/mac --ignore=cmd/linux --platform=win32 --arch=x64 --icon=build/icon.ico --prune=true --out=release-builds"
+    "pac-mac": "electron-packager . --overwrite --ignore=cmd/linux --ignore=cmd/win32 --platform=darwin --arch=x64 --icon=build/icon.icns --prune=true --out=../release-builds",
+    "pac-lin": "electron-packager . ScdoWalletBeta --overwrite --ignore=cmd/mac --ignore=cmd/win32 --platform=linux --arch=x64 --icon=build/icon.png --prune=true --out=../release-builds",
+    "pac-win": "electron-packager . ScdoWalletBeta --overwrite --ignore=cmd/mac --ignore=cmd/linux --platform=win32 --arch=x64 --icon=build/icon.ico --prune=true --out=../release-builds"
   },
   "build": {
     "appId": "ScdoWallet",
@@ -59,6 +59,7 @@
     "secp256k1": "^3.8.0",
     "shelljs": "^0.8.4",
     "solc": "^0.5.17",
-    "tree-kill": "^1.2.2"
+    "tree-kill": "^1.2.2",
+    "elliptic": "^6.5.3"
   }
 }
