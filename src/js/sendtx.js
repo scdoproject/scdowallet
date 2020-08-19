@@ -220,7 +220,10 @@ function detectShards(from, to) {
              const fs = require('fs');
              MSGJSON = JSON.parse(fs.readFileSync(client.langPath.toString()).toString());
           }     
-        var alertText = MSGJSON[lang]["shardWarning"]["1"]+ shardFrom + MSGJSON[lang]["shardWarning"]["2"] + shardTo + MSGJSON[lang]["shardWarning"]["3"];
-        alert(alertText);
+        var alertText = MSGJSON[lang]["shardWarning"]["1"]+ shardFrom 
+        + MSGJSON[lang]["shardWarning"]["2"] + shardTo 
+        + MSGJSON[lang]["shardWarning"]["3"];
+        // alert(alertText);
+        layer.alert(alertText);
     }
 }
