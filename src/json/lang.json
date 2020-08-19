@@ -86,9 +86,9 @@
       "specialChar":"Password must contain at least 1 special char"
     },
     "shardWarning":{
-      "1":"NOTE: \n\nsend funds From Shard",
+      "1":"NOTE: <br/>Send funds From Shard",
       "2":" To Shard",
-      "3":"\nhigher fee will be taken!\n\n\nClick OK to continue"
+      "3":"<br/>higher fee will be taken.<br/>Your transaction will be mined <span>probably within 50 minutes"
     },
     "createKeyfileWarning":{
       "stringEmpty":"Please enter name for keyfile",
@@ -239,9 +239,9 @@
       "specialChar":"密码必须含至少1个特殊字符"
     },
     "shardWarning":{
-      "1":"注意: \n\n数额将从片",
+      "1":"注意: <br/>数额将从片",
       "2":" 转至片",
-      "3":"\n交易费用会提高\n\n\n点击 确认 继续交易操作"
+      "3":"<br/>交易费用会提高<br/>点击 确认 继续交易操作"
     },
     "createKeyfileWarning":{
       "stringEmpty":"文件名不能为空",
