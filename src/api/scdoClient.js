@@ -490,10 +490,15 @@ function scdoClient() {
             const proc = spawn(this.binPath(), args);
 
             proc.stdout.on('data', data => {
-                console.log(data);
+                console.log(data.toString());
                 proc.stdin.write(passWord + '\n');
-                console.log(data);
-                this.accountArray.push(fileName);
+                console.log(data.toString());
+                publickey = this.keyfileisvalid(filePath);
+                if ( publickey ) { this.accountArray.push({
+                    "pubkey": publickey,
+                    "filename": fileName,
+                    "shard": this.getShardNum(publickey)
+                });}
                 resolve(data)
             });
 
@@ -680,9 +685,9 @@ function scdoClient() {
             }
             let txRecord = {
               "t":new Date().getTime(),
-              "fa":rawTx.From,
+              "fa":publicKey,
               "fs":this.getShardNum(rawTx.From),
-              "ta":rawTx.To,
+              "ta":to,
               "ts":ts,
               "m":rawTx.Amount,
               "s":tx.Hash,
