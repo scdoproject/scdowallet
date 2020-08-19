@@ -62,24 +62,39 @@ function moveKeyfileTo( f ) {
     var { dialog } = require('electron').remote
     // var fsPromises = require('fs').promises
     var file    = f.replace(/\[sPaCe\]/g, "\ ")
-    var dstpath = dialog.showOpenDialog(
-      { properties: ['openDirectory'],
-        buttonLabel: 'Export To'})
-    var srcpath = scdoClient.accountPath;
-    var success = false
-    try {
-      fs.copyFileSync(srcpath+file, dstpath+'/'+file, fs.constants.COPYFILE_EXCL);
-      try {
-        fs.unlinkSync(srcpath+file)
-        success = true;
-      } catch (e) {
-        console.log(e)
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    if(success){ layer.msg('move success') } else { layer.msg('move failed') }
-    setTimeout(function(){}, 500);
+    var dstpath ;
+    dialog.showOpenDialog(
+      { properties: ['openDirectory']
+        // buttonLabel: 'Export To'
+      }).then(obj => {
+          console.log(obj);
+          if (obj.canceled){
+            return;
+          }else{
+            dstpath = obj.filePaths[0];
+            var srcpath = client.accountPath;
+            var success = false
+            try {
+              fs.copyFileSync(srcpath+file, dstpath+'/'+file, fs.constants.COPYFILE_EXCL);
+              try {
+                fs.unlinkSync(srcpath+file)
+                success = true;
+              } catch (e) {
+                console.log(e)
+              }
+            } catch (e) {
+              console.log(e);
+            }
+            if(success){ 
+              layer.msg('move success')
+              clearMoreAbout();
+           } else { 
+             layer.msg('move failed') 
+            }
+            // setTimeout(function(){}, 500);
+          }
+    });
+
 }
 
 
