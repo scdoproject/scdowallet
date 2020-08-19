@@ -25,7 +25,7 @@ function addLoadEvent(func){
 function firstLoad(){
     var interval = setInterval(function(){
         refreshInfo();
-    }, 1000);
+    }, 10*5000);
 }
 
 function refreshInfo(){
@@ -49,7 +49,6 @@ function refreshInfo(){
         addressMessage = `${client.address[i].replace("http://","")}(` + info.Version + ")"
         document.getElementById("netInfoTable").rows[i].cells[2].innerHTML = addressMessage;
     });
-    
     client.getblock(i, "", -1, false, function (block,err) {
       if (err) {
         console.log(err);
