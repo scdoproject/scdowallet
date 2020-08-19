@@ -110,9 +110,10 @@ function loadAccount() {
     }
 
     if (client.accountArray.length > 0) {
-        layer.load(0, {
+        loadAccountLayer = layer.load(0, {
             shade: false
         });
+
     }
 
     var count = 0;
@@ -184,7 +185,7 @@ function loadAccount() {
         document.getElementById("accountlist").innerHTML += accountHTML;
     }
     loadRecords();
-    switchLanguage();
+    // switchLanguage();
     loadingBalances = false;
 
     if (client.accountArray.length == 0) {
@@ -277,7 +278,8 @@ function refreshBalances(){
                 document.getElementById('span_balance').innerText = (sum / 100000000).toFixed(3);
                 // document.getElementById('span_balance').innerText = "1,000,000,000.000";
                 loadingBalances = false;
-                layer.closeAll();
+                // layer.closeAll();
+                layer.close(loadAccountLayer);
             }
         })
     }
