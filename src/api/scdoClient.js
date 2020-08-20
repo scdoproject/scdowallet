@@ -645,8 +645,8 @@ function scdoClient() {
 
     this.sendtx = function (accountstr, passWord, to, amount, price, gaslimit, payload, callBack) {
         var account = JSON.parse(accountstr)
-        publicKey = account.pubkey;
-        shard = account.shard;
+        var publicKey = account.pubkey;
+        var shard = account.shard;
         console.log("in send:", publicKey, shard);
         var client;
         if (!/^[1-4]{1,1}$/.test( shard )) {
