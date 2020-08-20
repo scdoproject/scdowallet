@@ -1,10 +1,10 @@
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
-var ScdoClient = require('../api/scdoClient');
-const BigNumber = require('bignumber.js');
-scdoClient = new ScdoClient();
-const contractToAddress = "0x0000000000000000000000000000000000000000";
+// var ScdoClient = require('../api/scdoClient');
+// const BigNumber = require('bignumber.js');
+// scdoClient = new ScdoClient();
+const contractToAddress = "0S0000000000000000000000000000000000000000";
 function addLoadEvent(func) {
     var oldonload = window.onload;
     if (typeof window.onload != 'function') {
@@ -85,8 +85,8 @@ addLoadEvent(function () {
         // }
       });
       // add search contract event 
-    $('#searchImg').on('click',function(){viewReceipt();});
-    $('#callImg').on('click',function(){callContract();});
+    // $('#searchImg').on('click',function(){viewReceipt();});
+    // $('#callImg').on('click',function(){callContract();});
 })
 
 // function 
@@ -296,12 +296,13 @@ function viewReceipt(){
     hash = document.getElementById("ctxHash").value
     shard = document.getElementById("receiptShard").innerText
     console.log(hash, shard);
-    scdoClient.queryContract(shard, hash,function (result, err) {
+    //client is a global variable initiated in index.js
+    client.queryContract(shard, hash,function (result, err) {
         if (err) {
             alert(err.message)
         }else {
             var contractHash = document.getElementById("receipt-contractHash")
-            contractHash.innerText = "contract: \n" + result.contract
+            contractHash.innerText = "contract:\n" + result.contract
 
             var contractDeployFailedOrNo = document.getElementById("receipt-contractDeployFailedOrNo")
             contractDeployFailedOrNo.innerText = "failed: \n" + result.failed
@@ -330,7 +331,7 @@ function callContract(){
   shard = document.getElementById("callShard").innerText
   console.log( shard, payload, address );
 
-  scdoClient.callContract(shard, payload, address, function (result, err) {
+  client.callContract(shard, payload, address, function (result, err) {
     // console.log(result);
     if (err) {
       console.error(err);
@@ -405,7 +406,7 @@ function compileContract(){
         var to = document.getElementById("contractAddress").value
       }
       
-      scdoClient.estimateGas(from.value, to, "0x" + byt, function(result,err){
+      client.estimateGas(from.value, to, "0x" + byt, function(result,err){
           console.log(result);
           if(err){
               alert("Get estimated gas error:" + err);
