@@ -1,9 +1,6 @@
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
-// var ScdoClient = require('../api/scdoClient');
-// const BigNumber = require('bignumber.js');
-// scdoClient = new ScdoClient();
 const contractToAddress = "0S0000000000000000000000000000000000000000";
 function addLoadEvent(func) {
     var oldonload = window.onload;
@@ -100,7 +97,7 @@ function copyABI(){
 function promiseEstimateGas( from, to, load) {
   // console.log("from: ", from, "\nto: ", to, "\nload: ", load);
   return new Q((resolve, reject) => {
-    scdoClient.estimateGas(from, to, load, function(result, err){
+    client.estimateGas(from, to, load, function(result, err){
       console.log("result : ", result, "\nerror : ", JSON.stringify(err));
       if (err == undefined) {
         resolve(result)
@@ -108,11 +105,6 @@ function promiseEstimateGas( from, to, load) {
         reject(err)
       }
     });
-    // if( true ){
-    //   resolve(load)
-    // } else {
-    //   reject("hi")
-    // }
   });
 }
 
@@ -148,7 +140,7 @@ function deployContract(){
               console.log(requested.toString());
               if (!requested) {
                 const fs = require('fs');
-                var json = JSON.parse(fs.readFileSync(scdoClient.langPath.toString()).toString());
+                var json = JSON.parse(fs.readFileSync(client.langPath.toString()).toString());
                 const lang = document.getElementById("lang").value
                 alert(json[lang]["broadcastError"])
               }
@@ -156,10 +148,9 @@ function deployContract(){
 
             layer.load(0, { shade: false });
             console.log(from, accountpassWord.value, to, amount.value, gasPrice, estimatedgas, load);
-            // console.log(scdoClient.address);
             var fromAccount = document.getElementById("ctAccount").value
             console.log(fromAccount);
-            scdoClient.sendtx(fromAccount, accountpassWord.value, to, amount.value, gasPrice, estimatedgas, load, function(result, err, hash, txRecord) {
+            client.sendtx(fromAccount, accountpassWord.value, to, amount.value, gasPrice, estimatedgas, load, function(result, err, hash, txRecord) {
                 layer.closeAll();
                 requested = true;
                 console.log(requested)
@@ -167,11 +158,10 @@ function deployContract(){
                     layer.alert(err.message);
                 } else {
                     const fs = require('fs');
-                    var json = JSON.parse(fs.readFileSync(scdoClient.langPath.toString()).toString());
+                    var json = JSON.parse(fs.readFileSync(client.langPath.toString()).toString());
                     const lang = document.getElementById("lang").value
                     const createwarning0 = json[lang]["saveWarning0"];
                     const message = json[lang]["transactionSent"]+createwarning0+hash;
-                    // scdoClient.txArray.push(hash)
                     alert(message)
                     navigator.permissions.query({name: "clipboard-write"}).then(result => {
                       if (result.state == "granted" || result.state == "prompt") {
@@ -183,9 +173,8 @@ function deployContract(){
                         });
                       }
                     });
-                    scdoClient.txArray.push({"name":hash,"time":new Date().getTime()})
-                    // scdoClient.saveFile(false, hash)
-                    scdoClient.saveRecord(txRecord);
+                    client.txArray.push({"name":hash,"time":new Date().getTime()})
+                    client.saveRecord(txRecord);
                     location.reload()
                 }
             });
@@ -193,8 +182,8 @@ function deployContract(){
 
     } else {
         const fs = require('fs');
-        var json = JSON.parse(fs.readFileSync(scdoClient.langPath.toString()).toString());
-        var settings = JSON.parse(fs.readFileSync(scdoClient.configpath), 'utf8')
+        var json = JSON.parse(fs.readFileSync(client.langPath.toString()).toString());
+        var settings = JSON.parse(fs.readFileSync(client.configpath), 'utf8')
         const lang = settings.lang;
 
         alert(json[lang]["lack binaries"])
@@ -203,8 +192,8 @@ function deployContract(){
 
 function employContract(){
   const fs = require('fs');
-  var json = JSON.parse(fs.readFileSync(scdoClient.langPath.toString()).toString());
-  var settings = JSON.parse(fs.readFileSync(scdoClient.configpath), 'utf8')
+  var json = JSON.parse(fs.readFileSync(client.langPath.toString()).toString());
+  var settings = JSON.parse(fs.readFileSync(client.configpath), 'utf8')
   const lang = settings.lang;
   
   if(!ctxvalidator.form()){
@@ -239,7 +228,7 @@ function employContract(){
             console.log(requested.toString());
             if (!requested) {
               const fs = require('fs');
-              var json = JSON.parse(fs.readFileSync(scdoClient.langPath.toString()).toString());
+              var json = JSON.parse(fs.readFileSync(client.langPath.toString()).toString());
               const lang = document.getElementById("lang").value
               alert(json[lang]["broadcastError"])
             }
@@ -247,10 +236,9 @@ function employContract(){
 
           layer.load(0, { shade: false });
           console.log(from, accountpassWord.value, to, amount.value, gasPrice, estimatedgas, load);
-          // console.log(scdoClient.address);
           var fromAccount = document.getElementById("ctAccount").value
           console.log(fromAccount);
-          scdoClient.sendtx(fromAccount, accountpassWord.value, to, amount.value, gasPrice, estimatedgas, load, function(result, err, hash, txRecord) {
+          client.sendtx(fromAccount, accountpassWord.value, to, amount.value, gasPrice, estimatedgas, load, function(result, err, hash, txRecord) {
               layer.closeAll();
               requested = true;
               console.log(requested)
@@ -258,11 +246,10 @@ function employContract(){
                   layer.alert(err.message);
               } else {
                   const fs = require('fs');
-                  var json = JSON.parse(fs.readFileSync(scdoClient.langPath.toString()).toString());
+                  var json = JSON.parse(fs.readFileSync(client.langPath.toString()).toString());
                   const lang = document.getElementById("lang").value
                   const createwarning0 = json[lang]["saveWarning0"];
                   const message = json[lang]["transactionSent"]+createwarning0+hash;
-                  // scdoClient.txArray.push(hash)
                   alert(message)
                   navigator.permissions.query({name: "clipboard-write"}).then(result => {
                     if (result.state == "granted" || result.state == "prompt") {
@@ -274,9 +261,8 @@ function employContract(){
                       });
                     }
                   });
-                  scdoClient.txArray.push({"name":hash,"time":new Date().getTime()})
-                  // scdoClient.saveFile(false, hash)
-                  scdoClient.saveRecord(txRecord);
+                  client.txArray.push({"name":hash,"time":new Date().getTime()})
+                  client.saveRecord(txRecord);
                   location.reload()
               }
           });
@@ -302,25 +288,25 @@ function viewReceipt(){
             alert(err.message)
         }else {
             var contractHash = document.getElementById("receipt-contractHash")
-            contractHash.innerText = "contract:\n" + result.contract
+            contractHash.innerHTML = "<b>contract:</b><br/> " + result.contract
 
             var contractDeployFailedOrNo = document.getElementById("receipt-contractDeployFailedOrNo")
-            contractDeployFailedOrNo.innerText = "failed: \n" + result.failed
+            contractDeployFailedOrNo.innerHTML = "<b>failed:</b><br/>" + result.failed
 
             var contractPoststate = document.getElementById("receipt-contractPoststate")
-            contractPoststate.innerText = "poststate: \n" + result.poststate
+            contractPoststate.innerHTML = "<b>poststate: </b><br/>" + result.poststate
 
             var contractResult = document.getElementById("receipt-contractResult")
-            contractResult.innerText = "result: \n" + result.result
+            contractResult.innerHTML = "<b>result: </b><br/>" + result.result
 
             var contractTota1Fee = document.getElementById("receipt-contractTota1Fee")
-            contractTota1Fee.innerText = "totalFee: \n" + result.totalFee
+            contractTota1Fee.innerHTML = "<b>totalFee: </b><br/>" + result.totalFee
 
             var contractTxhash = document.getElementById("receipt-contractTxhash")
-            contractTxhash.innerText = "txhash: \n" + result.txhash
+            contractTxhash.innerHTML = "<b>txhash: </b><br/>" + result.txhash
 
             var contractUsedGas = document.getElementById("receipt-contractUsedGas")
-            contractUsedGas.innerText = "usedGas: \n" + result.usedGas
+            contractUsedGas.innerHTML = "<b>usedGas: </b><br/>" + result.usedGas
         }
     })
 }
@@ -442,7 +428,7 @@ function estimateGas(){
   console.log("triggered?");
   var from = document.getElementById("contractPublicKey").value;
   if (document.getElementById("contractAddress").value == "") {
-    var to = "0x0000000000000000000000000000000000000000";
+    var to = "0S0000000000000000000000000000000000000000";
   } else {
     var to = document.getElementById("contractAddress").value;
   }

@@ -43,8 +43,8 @@ function unlockmore() {
     var pass = $('.passwordfield-more').val()
     $('.passwordfield-more').val('')
     var file = $('.more-filename').html()
-    var key = fs.readFileSync(scdoClient.accountPath+file).toString()
-    scdoClient.decKeyFile(file,pass).then( 
+    var key = fs.readFileSync(client.accountPath+file).toString()
+    client.decKeyFile(file,pass).then( 
       function(result){
         layer.msg("unlock success!")
         $('.copy-pri').removeClass("disabledOption")

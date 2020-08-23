@@ -53,9 +53,7 @@ function createMenu (mainWindow) {
         label: i18n.__("Create Keyfile(s)"),
         accelerator: "CmdOrCtrl+N",
         click: () => {
-          // console.log("clicked");
           mainWindow.webContents.executeJavaScript('addKeyfilePopup()');
-            // mainWindow.webContents.executeJavaScript('importAccounts()')
         }
       },
       {

@@ -300,46 +300,12 @@ function importAccounts(){
               }
           }).catch(e=>{console.log(e);})
         } else {
-          // console.log(scdoClient.keyfileisvalid(srcpath[item]));
           alert(json[lang]["importfail1"] +name+ json[lang]["importfail2"])
         }
       }
     }
   });
   // window.location.reload();
-}
-
-function exportAccounts() {
-  //Get destination path
-  const { dialog } = require('electron').remote
-  const dstpath = dialog.showOpenDialog(
-    { properties: ['openDirectory'],
-      buttonLabel: 'Export To'}
-  )
-
-  //Get account file names and source paths
-  const fs = require('fs')
-  const srcpath = scdoClient.accountPath
-
-  //create directory
-  //var existingDirNames = fs.readdirSync(dstpath)
-  //var dirname = 'account'
-  //var i = 0
-  //
-  //while ( (dirname+i) in existingDirNames ) {i++}
-  //dirname = dirname + i
-  //
-  //fs.mkdir(dstpath+'/'+dirname, err => {
-  //  if (err && err.code != 'EEXIST') throw 'up'})
-
-  //loop to copy
-  scdoClient.accountList();
-  for (var item in scdoClient.accountArray) {
-    fs.copyFile(srcpath + scdoClient.accountArray[item], dstpath + '/' + scdoClient.accountArray[item], (err) => {
-      if (err) throw err;
-      console.log('export success for ' + scdoClient.accountArray[item]);
-    });
-  }
 }
 
 function ToAccountInfo(publickey, balance, shard) {

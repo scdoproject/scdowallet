@@ -22,7 +22,7 @@ function addLoadEvent(func) {
 
 function firstLoad() {
     loadAccount()
-    switchLanguage()
+    // switchLanguage()
 
     var interval1 = setInterval(function(){
         refreshBalances();
@@ -56,7 +56,6 @@ function beautifyTime(epochStr){
 }
 
 function loadRecords() {
-  // scdoClient.accountList();
   if (client == undefined) {
     var ScdoClient = require('./src/api/scdoClient');
     client = new ScdoClient();

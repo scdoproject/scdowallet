@@ -814,7 +814,7 @@ function scdoClient() {
             // var shard = this.getshardnum(send)
         console.log(to);
         console.log(shard);
-        if (/^0x[0-9a-zA-Z]{40,40}$/.test(to)){
+        if (/^((1s01|2s02|3s03|4s04|1S01|2S02|3S03|4S04)[a-fA-F0-9]{37}[1-2])|0[sSx]0{40}|0x0[1-4][a-fA-F0-9]{37}[1-2]$/.test(to)){
             if (!/^[1-4]{1,1}$/.test( shard )) {
                 console.error("invalid shardnum getReceiptByTxHash", shard)
             } else {

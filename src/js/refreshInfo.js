@@ -1,9 +1,3 @@
-// const fs = require('fs'); declared already?
-
-// var scdojs = require('scdo.js');
-// var ScdoClient = require('./src/api/scdoClient.js');
-// scdoClient = new ScdoClient();
-
 addLoadEvent(firstLoad);
 // document.getElementById("refreshInfo").addEventListener("click", refreshInfo);
 // document.getElementById("infoTime").addEventListener("click", showInfo);
@@ -25,7 +19,7 @@ function addLoadEvent(func){
 function firstLoad(){
     var interval = setInterval(function(){
         refreshInfo();
-    }, 10*5000);
+    }, 5000);
 }
 
 function refreshInfo(){
@@ -204,8 +198,8 @@ function refreshNodeInfo(){
 
 function getinfo(address, i){
   var tbl = document.getElementById("nodeinfotable")
-  var client = new scdojs(`http://${address}`).client
-  client.getInfo(
+  var shardClient = new scdojs(`http://${address}`).client
+  shardClient.getInfo(
     function (info) {
       tbl.rows[i].cells[0].innerHTML = info.Shard
       tbl.rows[i].cells[2].innerHTML = info.Version
