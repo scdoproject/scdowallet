@@ -113,7 +113,7 @@ function createMenu (mainWindow) {
   }
   
   const language = {
-    label:"Language",
+    label:i18n.__("Language"),
     submenu: [
       {
         label: "English",
@@ -173,26 +173,27 @@ function createMenu (mainWindow) {
     role: "help",
     submenu: [
       {
-        label: "Toggle Tooltip",
+        label: i18n.__("Toggle Tooltip"),
         accelerator: "CmdOrCtrl+T",
         click: async () => {
           mainWindow.webContents.executeJavaScript('toggleTooltip()')
         }
       },
       {
-        label: 'Learn More',
+        label:  i18n.__('Learn More'),
         click: async () => {
           const { shell } = require("electron")
           await shell.openExternal("https://scdo-scdotech.gitbook.io/wiki/tutorial/ScdoWallet-windows")
         }
-      },
-      {
-        label: "了解更多",
-        click: async () => {
-          const { shell } = require("electron")
-          await shell.openExternal("https://scdo-scdotech.gitbook.io/wiki/chinese/ScdoWallet-windows")
-        }
       }
+      // ,
+      // {
+      //   label: "了解更多",
+      //   click: async () => {
+      //     const { shell } = require("electron")
+      //     await shell.openExternal("https://scdo-scdotech.gitbook.io/wiki/chinese/ScdoWallet-windows")
+      //   }
+      // }
     ]
   }
   

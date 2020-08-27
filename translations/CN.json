@@ -21,5 +21,7 @@
   "Help":"帮助",
   "Learn More":"了解更多",
   "Minimize":"最小化窗口",
-  "Close":"关闭窗口"
+  "Close":"关闭窗口",
+  "Language":"语言",
+  "Toggle Tooltip":"切换提示"
 }

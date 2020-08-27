@@ -21,5 +21,7 @@
   "Help":"Help",
   "Learn More":"Learn More",
   "Minimize":"Minimize Window",
-  "Close":"Close Window"
+  "Close":"Close Window",
+  "Language":"Language",
+  "Toggle Tooltip":"Toggle Tooltip"
 }
