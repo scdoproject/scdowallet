@@ -655,7 +655,13 @@ function scdoClient() {
             client = this.client[shard];
         }
         
-        var nonce = client.sendSync("getAccountNonce", publicKey, "", -1);
+        var nonce;
+        try{
+            nonce = client.sendSync("getAccountNonce", publicKey, "", -1);
+        }catch(e){
+            callBack("","failed to get accountNonce","","")
+            return;
+        }
         console.log("in send returned nonce: "+nonce)
         nonce+=1
         var rawTx = {
