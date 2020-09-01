@@ -7,7 +7,7 @@
 .popuplocationwrap.nodepopup {
   /* text-align: center; */
   z-index: 2;
-  position: fixed;
+  position: absolute;
   top: 200px;
   left: calc(50% - 400px);
 }
