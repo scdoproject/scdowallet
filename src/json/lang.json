@@ -79,6 +79,7 @@
     "manage":"manage",
     "passwordWarning":{
       "fail":"Fail to Create password",
+      "invalid":"Must contain letter,number and special char,length 8-15",
       "length":"Password must contain at least 10 characters",
       "uppercase":"Password must contain at least 1 uppercase letter",
       "letter":"Password must contain at least 1 letter",
@@ -232,6 +233,7 @@
     "manage":"管理",
     "passwordWarning":{
       "fail":"账户创建失败",
+      "invalid":"密码必须包含大小写字母、数字和特殊字符，8-15位",
       "length":"密码必须含至少10个字符",
       "uppercase":"密码必须含至少1个大写字母",
       "letter":"密码必须含至少1个字母",

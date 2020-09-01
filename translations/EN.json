@@ -23,5 +23,7 @@
   "Minimize":"Minimize Window",
   "Close":"Close Window",
   "Language":"Language",
-  "Toggle Tooltip":"Toggle Tooltip"
+  "Toggle Tooltip":"Toggle Tooltip",
+  "Import from":"Import",
+  "OK":"OK"
 }

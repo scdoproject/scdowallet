@@ -23,5 +23,7 @@
   "Minimize":"最小化窗口",
   "Close":"关闭窗口",
   "Language":"语言",
-  "Toggle Tooltip":"切换提示"
+  "Toggle Tooltip":"切换提示",
+  "Import from":"导入",
+  "OK":"确定"
 }

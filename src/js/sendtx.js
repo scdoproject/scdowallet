@@ -3,6 +3,7 @@
 // All of the Node.js APIs are available in this process.
 // var ScdoClient = require('./src/api/scdoClient');
 const BigNumber = require('bignumber.js');
+const i18n = new(require('./translations/i18n.js'));
 // scdoClient = new ScdoClient();
 
 // onload = function() {
@@ -119,15 +120,15 @@ function sendtx() {
     } 
     const lang = document.getElementById("lang").value;
 
-    setTimeout(function(){
-      console.log("timeout request value:", requested.toString());
-      if (!requested) {
-        // const fs = require('fs');
-        // var json = JSON.parse(fs.readFileSync(scdoClient.langPath.toString()).toString());
-        // const lang = document.getElementById("lang").value
-        alert(MSGJSON[lang]["broadcastError"])
-      }
-    }, 50*1000);
+    // setTimeout(function(){
+    //   console.log("timeout request value:", requested.toString());
+    //   if (!requested) {
+    //     // const fs = require('fs');
+    //     // var json = JSON.parse(fs.readFileSync(scdoClient.langPath.toString()).toString());
+    //     // const lang = document.getElementById("lang").value
+    //     alert(MSGJSON[lang]["broadcastError"])
+    //   }
+    // }, 50*1000);
 
     layer.load(0, { shade: false });
     console.log(account.value, to.value, amount.value, gasPrice, estimatedgas);
@@ -146,22 +147,29 @@ function sendtx() {
             // var json = JSON.parse(fs.readFileSync(client.langPath.toString()).toString());
             const lang = document.getElementById("lang").value
             const createwarning0 = MSGJSON[lang]["saveWarning0"];
-            const message = MSGJSON[lang]["transactionSent"]+createwarning0+hash;
+            const message = MSGJSON[lang]["transactionSent"]+"<br/>"+createwarning0+"<br/>"+hash;
             // scdoClient.txArray.push(hash)
-            alert(message)
-            navigator.permissions.query({name: "clipboard-write"}).then(result => {
-              if (result.state == "granted" || result.state == "prompt") {
-                navigator.clipboard.writeText(hash).then(
-                  function() {
-                  console.log("copied!")
-                }, function() {
-                  console.log("failed, but still permitted")
-                });
-              }
-            });
-            client.txArray.push({"name":hash,"time":new Date().getTime()})
-            client.saveRecord(txRecord);
-            location.reload()
+            // layer.alert(message)
+            layer.msg(message,{
+                time:false,
+                btn:i18n.__("OK"),
+                yes:function(index,layero){
+                    navigator.permissions.query({name: "clipboard-write"}).then(result => {
+                        if (result.state == "granted" || result.state == "prompt") {
+                          navigator.clipboard.writeText(hash).then(
+                            function() {
+                            console.log("copied!")
+                          }, function() {
+                            console.log("failed, but still permitted")
+                          });
+                        }
+                      });
+                      client.txArray.push({"name":hash,"time":new Date().getTime()})
+                      client.saveRecord(txRecord);
+                      location.reload()
+                }
+            })
+            
         }
         console.log("end: ", result, err, hash, txRecord);
     });

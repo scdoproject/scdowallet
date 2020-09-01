@@ -197,6 +197,7 @@ function refreshNodeInfo(){
 
 
 function getinfo(address, i){
+  var scdojs = require('scdo.js');
   var tbl = document.getElementById("nodeinfotable")
   var shardClient = new scdojs(`http://${address}`).client
   shardClient.getInfo(

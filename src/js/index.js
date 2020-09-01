@@ -212,7 +212,7 @@ function addKeyfile(){
     console.log(error);
     layer.msg(error.join("\n"))
     $('.addpopup').addClass("smh")
-    setTimeout(function(){ $('.addpopup').removeClass("smh"); }, 200);
+    setTimeout(function(){ $('.addpopup').removeClass("smh"); }, 1000);
   } else {
     // console.log(name, prikey, pass);
     client.keyStore(name, prikey, pass,shard).then(
@@ -236,12 +236,14 @@ function passwordStrengthTest(password){
   var err = []
   const len = password.length
 
-  if (len < 10) { err.push(json[lang]["passwordWarning"]["length"]);}
+  // if (len < 10) { err.push(json[lang]["passwordWarning"]["length"]);}
   // if (password.toLowerCase()==password) { err.push(json[lang]["passwordWarning"]["uppercase"]) }
   // if (!/[a-zA-Z]/.test(password)) { err.push(json[lang]["passwordWarning"]["letter"]) }
   // if (!/\d/.test(password)) { err.push(json[lang]["passwordWarning"]["number"]) }
-  // if (!/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/.test(password)) { err.push(json[lang]["passwordWarning"]["specialChar"]) }
+  // if (!/[^a-zA-Z0-9]/.test(password)) { err.push(json[lang]["passwordWarning"]["specialChar"]) }  
   var errmsg = []
+  var passwordReg = /(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,15}/ ;
+  if(!passwordReg.test(password)){ err.push(json[lang]["passwordWarning"]["invalid"])}
   if (err.length != 0) {
     errmsg = [json[lang]["passwordWarning"]["fail"]].concat(err);
     // console.log(errmsg)
@@ -265,12 +267,12 @@ function importAccounts(){
   var json = JSON.parse(fs.readFileSync(client.langPath.toString()).toString());
   var settings = JSON.parse(fs.readFileSync(client.configpath), 'utf8')
   const lang = settings.lang;
-  
+  var i18n = new(require('./translations/i18n'))
   var srcpath;
   dialog.showOpenDialog(
     { properties: ['openFile', 'multiSelections'],
     // { properties: ['multiSelections'],
-      buttonLabel: 'Import from'}
+      buttonLabel: i18n.__('Import from')}
   ).then(obj => {
     console.log(obj);
     if (obj.canceled){
