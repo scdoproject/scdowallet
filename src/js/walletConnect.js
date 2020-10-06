@@ -6,7 +6,6 @@ var ScdoClient = require('../api/scdoClient');
 scdoClient = new ScdoClient();
 var shard
 const fs = require('fs');
-// console.log(`WalletConnect is in ${__dirname}`)
 var json = JSON.parse(fs.readFileSync(scdoClient.langPath.toString()).toString());
 
 function addLoadEvent(func) {
@@ -76,7 +75,6 @@ function getNetWork() {
 function getBlockHeight() {
     setInterval(function(){
         var blockheight = document.getElementById("blockheight");
-        // console.log(shard)
         scdoClient.getblockheight(shard, function (height,err) {
             if (err) {
                 blockheight.innerText = 0;

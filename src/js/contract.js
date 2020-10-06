@@ -255,7 +255,6 @@ function employContract(){
                     if (result.state == "granted" || result.state == "prompt") {
                       navigator.clipboard.writeText(hash).then(
                         function() {
-                        console.log("copied!")
                       }, function() {
                         console.log("failed, but still permitted")
                       });

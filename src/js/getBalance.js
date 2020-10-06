@@ -204,7 +204,6 @@ function toclip(text) {
     if (result.state == "granted" || result.state == "prompt") {
       navigator.clipboard.writeText(text).then(
         function() {
-        console.log("copied!")
       }, function() {
         console.log("failed, but still permitted")
       });

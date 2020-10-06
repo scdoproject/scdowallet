@@ -597,7 +597,6 @@ function toclip(text) {
     if (result.state == "granted" || result.state == "prompt") {
       navigator.clipboard.writeText(text).then(
         function() {
-        console.log("copied!")        
         if(!MSGJSON){
           if (client == undefined) {
             var ScdoClient = require('./src/api/scdoClient');
