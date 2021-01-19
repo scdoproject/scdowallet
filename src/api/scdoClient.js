@@ -10,11 +10,15 @@ var editFile = require("edit-json-file");
 var process = require('process');
 var tkill = require('tree-kill');
 var ps = require('ps-node');
+const secp256k1 = require('secp256k1');
+const createKeccakHash = require('keccak');
+const rlp = require('rlp')
 
 const Q = require('bluebird');
 const spawn = require('child_process').spawn;
 const spawnSync = require('child_process').spawnSync;
 const editJsonFile = require("edit-json-file");
+const utils = require("../js/utils");
 
 function scdoClient() {
     
@@ -490,16 +494,10 @@ function scdoClient() {
             const proc = spawn(this.binPath(), args);
 
             proc.stdout.on('data', data => {
-                console.log(data.toString());
                 proc.stdin.write(passWord + '\n');
-                console.log(data.toString());
-                publickey = this.keyfileisvalid(filePath);
-                if ( publickey ) { this.accountArray.push({
-                    "pubkey": publickey,
-                    "filename": fileName,
-                    "shard": this.getShardNum(publickey)
-                });}
-                resolve(data)
+                if(data.indexOf("store key successfully") > -1 ){
+                    resolve(null);
+                }              
             });
 
             proc.stderr.on('data', data => {
@@ -572,8 +570,6 @@ function scdoClient() {
             var publickey;
             for(i = 0; i < filelist.length; i ++){
               publickey = this.keyfileisvalid(this.accountPath+filelist[i]);
-              // if ( publickey ) { this.accountArray.push(publickey); }
-              console.log(`${filelist[i].split(/\ /).join('\ ')}`);
               if ( publickey ) { this.accountArray.push({
                 "pubkey": publickey,
                 "filename": filelist[i].split(/\ /).join('\ '),
@@ -584,7 +580,6 @@ function scdoClient() {
             console.log(this.accountPath + "  Not Found!");
         }
         this.accountArray.sort(function(a,b){return a.shard - b.shard })
-        // console.log(this.accountArray)
     };
 
     this.accountListPromise = function () {
@@ -958,6 +953,34 @@ function scdoClient() {
           this.client[shard].getDebtByHash(hash, callBack);
       }
     }
+    
+    this.getAddressFromPriKey = function (privKey,shard){
+        if (shard == undefined){
+            shard = 1
+        }
+        if (shard < 1 || shard > shardCount) {
+            console.log("Error: shard is invalid ")
+            return ""
+        }
+        privKeyBuffer = Buffer.from(privKey.slice(2),'hex');
+        if ( !secp256k1.privateKeyVerify(privKeyBuffer) ){
+            console.log("Error: privatekey is invalid ")
+            return ""
+        }
+        
+        // get the public key in a compressed format
+        let pubKey = secp256k1.publicKeyCreate(privKeyBuffer);
+        pubKey = secp256k1.publicKeyConvert(pubKey, false).slice(1)
+        
+        // Only take the lower 160bits of the hash
+        let address = createKeccakHash('keccak256').update(rlp.encode(pubKey)).digest().slice(-20)
+        address[0] = shard
+        // address[1] = shard
+        address[19] = address[19]&0xF0|1
+    
+        return shard + "S" + address.toString('hex');
+    }
+
 }
 
 
