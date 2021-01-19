@@ -96,7 +96,8 @@
       "stringExist":"Name already used",
       "shardInvalid":"Shard number must be 1-4",
       "keyInvalid":"Privatekey should be 64 alphanumeric characters after 0x",
-      "createSuccess":"Create Success"
+      "createSuccess":"Create success",
+      "pubkeyExist":"Account existed"
     },
     "tb-shard":"shard",
     "tb-connected":"connected",
@@ -250,7 +251,8 @@
       "stringExist":"文件名已有",
       "shardInvalid":"片号须为1-4",
       "keyInvalid":"私钥须为以0x开头66位数字字母字符串",
-      "createSuccess":"创建成功!"
+      "createSuccess":"创建成功!",
+      "pubkeyExist":"账户已存在"
     },
     "tb-shard":"片",
     "tb-connected":"连接",
