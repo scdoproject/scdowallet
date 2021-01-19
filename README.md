@@ -8,7 +8,7 @@ ScdoWallet is Scdo's open-source wallet, which runs on OSX, Windows and Linux, f
 
 ### User
 
-[Tutorial](https://scdo-scdotech.gitbook.io/wiki/tutorial/ScdoWallet)
+[Tutorial](https://scdoproject.gitbook.io/scdo-wiki/en/wallet)
 
 [Download](https://github.com/scdoproject/ScdoWallet/releases/latest)
 
