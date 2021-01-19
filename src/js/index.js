@@ -97,6 +97,7 @@ $(function ($) {
 })
 
 function addKeyfilePopup(){
+  document.getElementById('createKeyfileD').addEventListener("click", addKeyfile, {once: true});
   console.log($('.addpopup').css("display"))
   // bring up display and give dask specific cleaning action listener
   if ( $('.addpopup').css("display") == "none" ) {
@@ -130,7 +131,6 @@ function clearAddKeyfile(){
 
   $('.option-string').val('')
   $('.passwordfield-add').val('')
-  refreshAccount()
 }
 
 function isDuplicateBy(value, field, arrayOfJsonObj) {
@@ -157,13 +157,14 @@ function shakeAddpopWithEr(msg){
   setTimeout(function(){ $('.addpopup').removeClass("smh"); }, 200);
 }
 
-function addKeyfile(){
+async function addKeyfile(){
   // if file name is full and valid
   // if password is full and valid
   // There must be a choice, defaulted
     // shard is valid
     // prikey is valid
     // btw its better that you give a default 1, and the add-type
+  document.getElementById('createKeyfileD').removeEventListener("click",addKeyfile);
   const fs = require('fs');
   if (client == undefined) {
     var ScdoClient = require('./src/api/scdoClient');
@@ -177,55 +178,56 @@ function addKeyfile(){
   if ( name == "" ) {
     error.push(json[lang]["createKeyfileWarning"]["stringEmpty"])
   } else {
-    accountList = client.accountListPromise()
-    accountList.then(a=>{
-        if ( isDuplicateBy(name,"filename",a) ) {
-          shakeAddpopWithEr(json[lang]["createKeyfileWarning"]["stringExist"])
-          return;
-        }
-    }).catch(e=>{console.log(e);})
-  }
+    a = client.accountArray;
+    var pass = $('.passwordfield-add').val()
+    // concat only returns a copy
+    error = error.concat(passwordStrengthTest(pass));
+    
+    var prikey = $('.prikey-add').val()
+    var shard = $('.shard-add').val()
+    if (shard == ""){
+      shard = "1" // default shard
+    }
 
-  var pass = $('.passwordfield-add').val()
-  // concat only returns a copy
-  error = error.concat(passwordStrengthTest(pass));
-
-  var prikey = $('.prikey-add').val()
-  var shard = $('.shard-add').val()
-  if (shard == ""){
-    shard == "1" // default shard
+    if (prikey == "") {
+        key = client.keyTool.generateKeys(shard)
+        prikey = key.privatekey
+        console.log("generate pubkey:" + key.publickey);
+    }else{
+      var addr = client.getAddressFromPriKey(prikey,shard);
+      if (addr==null){
+        error.push(json[lang]["createKeyfileWarning"]["keyInvalid"])
+      }else if ( isDuplicateBy(addr,"pubkey",a) ) {
+        error.push(json[lang]["createKeyfileWarning"]["pubkeyExist"])
+      }
+    }
+    
+    if( !/^[1-4]{1,1}$/.test( shard ) ){
+      error.push(json[lang]["createKeyfileWarning"]["shardInvalid"])
+    }  
+    if( !/^0x[0-9a-z]{64,64}$/.test( prikey ) ){
+      error.push(json[lang]["createKeyfileWarning"]["keyInvalid"])
+    }
   }
-  if (prikey == "") {
-      key = client.keyTool.generateKeys(shard)
-      prikey = key.privatekey
-      console.log(key.publickey);
-  }
-
-  if( !/^[1-4]{1,1}$/.test( shard ) ){
-    error.push(json[lang]["createKeyfileWarning"]["shardInvalid"])
-  }  
-  if( !/^0x[0-9a-z]{64,64}$/.test( prikey ) ){
-    error.push(json[lang]["createKeyfileWarning"]["keyInvalid"])
-  }
-  
   if ( error.length != 0 ) {
     console.log(error);
     layer.msg(error.join("\n"))
-    $('.addpopup').addClass("smh")
-    setTimeout(function(){ $('.addpopup').removeClass("smh"); }, 1000);
+    $('.addpopup').addClass("smh");
+    $('.addpopup').removeClass("smh");
+    // setTimeout(function(){  }, 1000);
+    document.getElementById('createKeyfileD').addEventListener("click", addKeyfile, {once: true});
   } else {
-    // console.log(name, prikey, pass);
-    client.keyStore(name, prikey, pass,shard).then(
-      (res)=>{ 
-        clearAddKeyfile(); 
-        layer.msg(json[lang]["createKeyfileWarning"]["createSuccess"]);
-         console.log("resolved");},
-      (rej)=>{  
-        layer.msg(rej);
-        console.log("rejected: why:");}
-    )
+    name = name + "." + new Date().getTime();
+    err = await client.keyStore(name, prikey, pass,shard);
+    if (err == null){ 
+      clearAddKeyfile(); 
+      layer.msg(json[lang]["createKeyfileWarning"]["createSuccess"]);
+      refreshAccount();
+    } else {
+      layer.msg(rej);
+      console.log("create keystore file error:"+rej);
+    }
   }
-  setTimeout(function(){ refreshAccount(); }, 4000);
 }
 
 function passwordStrengthTest(password){
@@ -285,12 +287,15 @@ function importAccounts(){
         //console.log(srcpath[item])
         var tempfilename = srcpath[item].split(path.sep)
         //console.log(dstpath+tempfilename[tempfilename.length-1])
-        if ( client.keyfileisvalid(srcpath[item]) ) {
+        var pubkey = client.keyfileisvalid(srcpath[item]);
+        if ( pubkey ) {
           var name = tempfilename[tempfilename.length-1];
           client.accountListPromise().then(a=>{
               if ( isDuplicateBy(name,"filename",a) ) {
                 alert(json[lang]["createKeyfileWarning"]["stringExist"]);
-              } else {
+              } else if ( isDuplicateBy(pubkey,"pubkey",a) ) {
+                alert(json[lang]["createKeyfileWarning"]["pubkeyExist"]);
+              }  else {
                 fs.copyFileSync(srcpath[item], dstpath+name, (err) => {
                   console.log(err);
                   if (err) alert(err);
