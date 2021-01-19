@@ -183,7 +183,7 @@ function createMenu (mainWindow) {
         label:  i18n.__('Learn More'),
         click: async () => {
           const { shell } = require("electron")
-          await shell.openExternal("https://scdo-scdotech.gitbook.io/wiki/tutorial/ScdoWallet-windows")
+          await shell.openExternal("https://scdoproject.gitbook.io/scdo-wiki/en/wallet")
         }
       }
       // ,

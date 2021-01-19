@@ -112,13 +112,11 @@ function showNetWorkinfo(){
   for ( var i = 0 ; i < settings.monitor.length ; i++ ) {
     var row = document.createElement("tr");
     var ts = Math.round((new Date()).getTime()).toString()+tbl.children.length
-    // console.log(ts);
     row.innerHTML = `<tr><td></td><td>${settings.monitor[i].replace("http://","")}</td><td></td><td></td><td></td><td onclick="removeThisRow(${ts})">x</td></tr>`
     row.id=ts
     tbl.appendChild(row)
   }
   
-  // console.log(document.getElementById("nodeinfotable").children);
 }
 
 function saveNodeInfo(){
@@ -184,7 +182,6 @@ function saveNodeInfo(){
 }
 
 function refreshNodeInfo(){
-  console.log("refresh!")
   var tbl = document.getElementById("nodeinfotable")
  
   for ( var i = 0 ; i < tbl.children.length ; i++ ) {
