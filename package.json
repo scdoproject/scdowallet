@@ -1,6 +1,6 @@
 {
     "name": "ScdoWallet",
-    "version": "0.6.2",
+    "version": "1.0.1",
     "icon": "build/icon.icns",
     "productName": "ScdoWalletBeta",
     "description": "Wallet for Scdo",
