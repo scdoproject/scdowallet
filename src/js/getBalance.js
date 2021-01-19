@@ -112,7 +112,6 @@ function loadAccount() {
         loadAccountLayer = layer.load(0, {
             shade: false
         });
-
     }
 
     var count = 0;
@@ -138,20 +137,21 @@ function loadAccount() {
         publicKey = account.pubkey;
         shardNum = account.shard;
         filename = account.filename;
-        
-        if (account.filename.length > 12 ) {
+        //truncate file type of filename
+        if(filename.lastIndexOf(".") > 0){
+          filename = filename.substring(0,filename.lastIndexOf("."));
+        }
+        if (filename.length > 12 ) {
           filename  = '…'+account.filename.slice(-12);
         }
-        console.log(filename);
         shardWord = json[lang]['tb-shard'];
         send = json[lang]['tabSend'];
         balance = 0
         var clickerAcc = {
           pubkey: publicKey,
           shard: shardNum,
-          filename: filename.split(/\ /).join('[sPaCe]')
+          filename: account.filename.split(/\ /).join('[sPaCe]')
         }
-        console.log(clickerAcc);
         var accountHTML = ``
 
         // accountHTML += `<div class='account'><div class='account-up'>`
@@ -175,8 +175,6 @@ function loadAccount() {
         accountHTML += `<div class='tooltip account-controls-mid' onclick=call("`+shardNum+`","`+ shardWord + `")> <img class='img' src='./src/img/call.png'><span class="tooltiptext enable lit" id="callContract">call contract</span></div>`
         accountHTML += `<div class='tooltip account-controls-mid' onclick=contract(\`` + JSON.stringify(clickerAcc)+`\`)> <img class='img' src='./src/img/contract.png'><span class="tooltiptext enable lit" id="deployEmploy">deploy or query</span></div>`
         accountHTML += `<div class='tooltip account-controls-mid' onclick=receipt("`+shardNum+`","`+ shardWord + `")> <img class='img' src='./src/img/receipt.png'><span class="tooltiptext enable lit" id="viewReceipt">view receipt</span></div>`
-        
-        console.log(`<div class='tooltip account-controls-left' onclick=transaction(\``+ `${JSON.stringify(account)}` +`\`) ><img class='img' src='./src/img/transaction.png'><span class="tooltiptext enable lit" id="sendTx">send tx</span></div></div><div class='account-info'>`);
         accountHTML += `<div class='tooltip account-controls-left' onclick=transaction(\``+ JSON.stringify(clickerAcc) +`\`) ><img class='img' src='./src/img/transaction.png'><span class="tooltiptext enable lit" id="sendTx">send tx</span></div></div><div class='account-info'>`
         accountHTML += `<div class='account-shard' style="visibility:visible"> <span class='shardword'>`+shardWord+`</span><span class='shardnum'>`+shardNum+`</span></div> `
         accountHTML += `<div class='account-file'>`+filename+`</div></div></div></div>`
@@ -277,7 +275,9 @@ function refreshBalances(){
                 // document.getElementById('span_balance').innerText = "1,000,000,000.000";
                 loadingBalances = false;
                 // layer.closeAll();
-                layer.close(loadAccountLayer);
+                if(loadAccountLayer != undefined){
+                  layer.close(loadAccountLayer);
+                }
             }
         })
     }
