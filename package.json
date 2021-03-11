@@ -60,6 +60,6 @@
         "shelljs": "^0.8.4",
         "solc": "^0.5.17",
         "tree-kill": "^1.2.2",
-        "elliptic": "^6.5.3"
+        "elliptic": "^6.5.4"
     }
 }
